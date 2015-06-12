@@ -31,7 +31,8 @@ PRODUCT_PACKAGES += \
     charger
 
 PRODUCT_COPY_FILES += \
-    device/lge/d855/kernel:kernel
+    device/lge/d855/kernel:kernel \
+    device/lge/d855/dtb:dtb
 
 PRODUCT_COPY_FILES += device/lge/d855/fstab.g3:recovery/root/fstab.g3
 
