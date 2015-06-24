@@ -24,6 +24,7 @@ BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.hardware=g3 user_d
 BOARD_KERNEL_BASE := 0x0000000
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_MKBOOTIMG_ARGS := --dt device/lge/d855/dtb --kernel_offset 0x0008000 --ramdisk_offset 0x2000000 --second_offset 0x0f00000 --tags_offset 0x0000100
+BOARD_CUSTOM_BOOTIMG_MK := device/lge/d855/mkbootimg.mk
 
 # prebuilt kernel
 TARGET_PREBUILT_KERNEL := device/lge/d855/kernel
