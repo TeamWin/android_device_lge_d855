@@ -52,3 +52,4 @@ TW_EXCLUDE_SUPERSU := true
 TW_INCLUDE_CRYPTO := true
 TW_THEME := portrait_hdpi
 RECOVERY_VARIANT := twrp
+TW_INCLUDE_NTFS_3G := true
