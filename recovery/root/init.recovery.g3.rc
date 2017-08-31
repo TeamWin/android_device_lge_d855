@@ -1,10 +1,55 @@
+on boot
+    write /sys/module/lpm_levels/enable_low_power/l2 "4"
+    write /sys/module/msm_pm/modes/cpu0/power_collapse/suspend_enabled "1"
+    write /sys/module/msm_pm/modes/cpu1/power_collapse/suspend_enabled "1"
+    write /sys/module/msm_pm/modes/cpu2/power_collapse/suspend_enabled "1"
+    write /sys/module/msm_pm/modes/cpu3/power_collapse/suspend_enabled "1"
+    write /sys/module/msm_pm/modes/cpu0/power_collapse/idle_enabled "1"
+    write /sys/module/msm_pm/modes/cpu1/power_collapse/idle_enabled "1"
+    write /sys/module/msm_pm/modes/cpu2/power_collapse/idle_enabled "1"
+    write /sys/module/msm_pm/modes/cpu3/power_collapse/idle_enabled "1"
+    write /sys/module/msm_pm/modes/cpu0/standalone_power_collapse/suspend_enabled "1"
+    write /sys/module/msm_pm/modes/cpu1/standalone_power_collapse/suspend_enabled "1"
+    write /sys/module/msm_pm/modes/cpu2/standalone_power_collapse/suspend_enabled "1"
+    write /sys/module/msm_pm/modes/cpu3/standalone_power_collapse/suspend_enabled "1"
+    write /sys/module/msm_pm/modes/cpu0/standalone_power_collapse/idle_enabled "1"
+    write /sys/module/msm_pm/modes/cpu1/standalone_power_collapse/idle_enabled "1"
+    write /sys/module/msm_pm/modes/cpu2/standalone_power_collapse/idle_enabled "1"
+    write /sys/module/msm_pm/modes/cpu3/standalone_power_collapse/idle_enabled "1"
+    write /sys/module/msm_pm/modes/cpu0/retention/idle_enabled "1"
+    write /sys/module/msm_pm/modes/cpu1/retention/idle_enabled "1"
+    write /sys/module/msm_pm/modes/cpu2/retention/idle_enabled "1"
+    write /sys/module/msm_pm/modes/cpu3/retention/idle_enabled "1"
+    write /sys/module/msm_thermal/core_control/enabled 0
+    write /sys/devices/system/cpu/cpu1/online 1
+    write /sys/devices/system/cpu/cpu2/online 1
+    write /sys/devices/system/cpu/cpu3/online 1
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "interactive"
+    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor "interactive"
+    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "interactive"
+    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor "interactive"
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 300000
+    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq 300000
+    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_min_freq 300000
+    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_min_freq 300000
+    write /sys/module/msm_thermal/core_control/enabled 1
+    chown root system /sys/devices/system/cpu/cpu1/online
+    chown root system /sys/devices/system/cpu/cpu2/online
+    chown root system /sys/devices/system/cpu/cpu3/online
+    write /sys/devices/system/cpu/cpu1/online 0
+    write /sys/devices/system/cpu/cpu2/online 0
+    write /sys/devices/system/cpu/cpu3/online 0
 on fs
+    # Adds touch to wake support
+    chown root shell /sys/devices/virtual/input/lge_touch/touch_gesture
+    chown root shell /sys/devices/virtual/input/lge_touch/tap_to_wake
+    write /sys/devices/virtual/input/lge_touch/touch_gesture 1
+    write /sys/devices/virtual/input/lge_touch/tap_to_wake 1
     # needed to make qseecomd work in recovery
     chmod 0660 /dev/qseecom
     chown system drmrpc /dev/qseecom
     chmod 0664 /dev/ion
     chown system system /dev/ion
-	
 # separate copy needed to use /sbin/linker64 instead of /system/bin/linker64
 service sbinqseecomd /sbin/qseecomd
     oneshot
@@ -12,10 +57,7 @@ service sbinqseecomd /sbin/qseecomd
     user root
     group root
     seclabel u:r:recovery:s0
-
 on property:ro.crypto.state=encrypted
     start sbinqseecomd
-
 on property:ro.crypto.fs_crypto_blkdev=/dev/block/dm-0
     stop sbinqseecomd
-	
